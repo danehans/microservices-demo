@@ -20,17 +20,19 @@ spec:
   selector:
     matchLabels:
       app: frontend
+      version: v0.2.3
   template:
     metadata:
       labels:
         app: frontend
+        version: v0.2.3
       annotations:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       serviceAccountName: default
       containers:
         - name: server
-          image: frontend
+          image: gcr.io/google-samples/microservices-demo/frontend:v0.2.3
           ports:
           - containerPort: 8080
           readinessProbe:
@@ -92,6 +94,7 @@ spec:
   type: ClusterIP
   selector:
     app: frontend
+    version: v0.2.3
   ports:
   - name: http
     port: 80

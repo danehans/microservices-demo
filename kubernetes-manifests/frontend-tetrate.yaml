@@ -15,22 +15,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: frontend-tetrate
 spec:
   selector:
     matchLabels:
       app: frontend
+      version: tetrate
   template:
     metadata:
       labels:
         app: frontend
+        version: tetrate
       annotations:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       serviceAccountName: default
       containers:
         - name: server
-          image: frontend
+          image: gcr.io/tetratelabs/boutique-frontend:1.0.0
           ports:
           - containerPort: 8080
           readinessProbe:
@@ -87,11 +89,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend
+  name: frontend-tetrate
 spec:
   type: ClusterIP
   selector:
     app: frontend
+    version: tetrate
   ports:
   - name: http
     port: 80
